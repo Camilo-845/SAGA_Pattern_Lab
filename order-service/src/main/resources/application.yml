@@ -1,49 +1,42 @@
 server:
-    port: 8081
+  port: 8081
 spring:
-    application:
-        name: order-service
-    rabbitmq:
-        host: localhost
-        port: 5672
-        username: admin
-        password: admin
-    cloud:
-        function:
-            definition: inventoryIn;paymentIn;inventoryOut;paymentOut;eventsOut
+  application:
+    name: order-service
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin
+  cloud:
+    function:
+      definition: inventoryIn;paymentIn;inventoryOut;paymentOut;eventsOut
 
-        stream:
-            rabbit:
-                bindings:
-                    # 1. Configuraci�n de DLQ para el consumidor de Inventario
-                    inventoryIn-in-0:
-                        consumer:
-                            auto-bind-dlq: true
-                    # 2. Configuraci�n de DLQ para el consumidor de Pago
-                    paymentIn-in-0:
-                        consumer:
-                            auto-bind-dlq: true
+    stream:
+      rabbit:
+        bindings:
+          inventoryIn-in-0:
+            consumer:
+              auto-bind-dlq: true
+          paymentIn-in-0:
+            consumer:
+              auto-bind-dlq: true
 
-            bindings:
-                # ----------------------------------------------------
-                # 1. SALIDAS (Comandos hacia otros servicios y Eventos finales)
-                # ----------------------------------------------------
-                inventoryOut-out-0:
-                    destination: inventory-commands-exchange # Exchange para comandos de Inventario
+      bindings:
+        inventoryOut-out-0:
+          destination: inventory-commands-exchange
 
-                paymentOut-out-0:
-                    destination: payment-commands-exchange   # Exchange para comandos de Pago
+        paymentOut-out-0:
+          destination: payment-commands-exchange
 
-                eventsOut-out-0:
-                    destination: order-events-exchange       # Exchange para Eventos Finales
+        eventsOut-out-0:
+          destination: order-events-exchange
 
-                # ----------------------------------------------------
-                # 2. ENTRADAS (Eventos desde otros servicios)
-                # ----------------------------------------------------
-                inventoryIn-in-0:
-                    destination: inventory-events-exchange # Escucha el Exchange de Eventos de Inventario
-                    group: order-service-inventory-listener  # Cola: inventory-events-exchange.order-service-inventory-listener
+        inventoryIn-in-0:
+          destination: inventory-events-exchange
+          group: order-service-inventory-listener
 
-                paymentIn-in-0:
-                    destination: payment-events-exchange   # Escucha el Exchange de Eventos de Pago
-                    group: order-service-payment-listener    # Cola: payment-events-exchange.order-service-payment-listener
+        paymentIn-in-0:
+          destination: payment-events-exchange
+          group: order-service-payment-listener
+

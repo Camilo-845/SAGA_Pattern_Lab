@@ -1,0 +1,43 @@
+services:
+  order-service:
+    build:
+      context: ./order-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - inventory-service
+    networks:
+      - test-network
+
+  inventory-service:
+    build:
+      context: ./inventory-service
+    ports:
+      - "8082"
+    depends_on:
+      - payment-service
+    networks:
+      - test-network
+
+  payment-service:
+    build:
+      context: ./payment-service
+    ports:
+      - "8083"
+    depends_on:
+      - rabbitmq
+    networks:
+      - test-network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+    networks:
+      - test-network
+networks:
+  test-network:

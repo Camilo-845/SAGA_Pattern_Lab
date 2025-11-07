@@ -12,11 +12,10 @@ import java.util.UUID;
 @Data
 @ToString
 public class Order {
-    private UUID id;
-
-    private String productId;
-    private Integer quantity;
-    private BigDecimal totalAmount;
-    private Status status;
-    private Timestamp createdAt;
+  private UUID id;
+  private String productId;
+  private Integer quantity;
+  private BigDecimal totalAmount;
+  private Status status;
+  private Timestamp createdAt;
 }
