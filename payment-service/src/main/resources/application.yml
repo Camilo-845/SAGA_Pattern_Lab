@@ -1,0 +1,36 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: payment-service
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin
+
+  cloud:
+    function:
+      definition: commandsIn;eventsOut # Define 2 beans de Java
+
+    stream:
+      rabbit:
+        bindings:
+          # Configuración de DLQ para el consumidor de Comandos
+          commandsIn-in-0:
+            consumer:
+              auto-bind-dlq: true
+
+      bindings:
+        # ----------------------------------------------------
+        # 1. ENTRADA (Comandos desde Order Service)
+        # ----------------------------------------------------
+        commandsIn-in-0:
+          destination: payment-commands-exchange # Escucha el Exchange de Comandos de Pago
+          group: payment-service-listener        # Cola: payment-commands-exchange.payment-service-listener
+
+        # ----------------------------------------------------
+        # 2. SALIDA (Eventos hacia Order Service)
+        # ----------------------------------------------------
+        eventsOut-out-0:
+          destination: payment-events-exchange   # Exchange para eventos de Pago
