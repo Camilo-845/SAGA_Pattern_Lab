@@ -1,5 +1,4 @@
-
-package org.example.inventoryservice.dto.event;
+package org.example.orderservice.dto.event;
 
 public record InventoryRejectedEvent(
     String orderId,

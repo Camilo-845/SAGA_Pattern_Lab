@@ -13,6 +13,9 @@ public class OrderRepository {
   private List<Order> orders = new ArrayList<>();
 
   public Order save(Order order) {
+    if (order.getId() != null) {
+      orders.removeIf(o -> o.getId().equals(order.getId()));
+    }
     order.setId(UUID.randomUUID());
     order.setCreatedAt(new java.sql.Timestamp(System.currentTimeMillis()));
     this.orders.add(order);
