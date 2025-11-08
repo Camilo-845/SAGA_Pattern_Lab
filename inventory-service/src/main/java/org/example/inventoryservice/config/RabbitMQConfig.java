@@ -1,4 +1,4 @@
-package org.example.orderservice.config;
+package org.example.inventoryservice.config;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -13,7 +13,10 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfig {
   public static final String EXCHANGE_NAME = "saga.exchange";
   public static final String INVENTORY_QUEUE_NAME = "inventory.queue";
-  public static final String INVENTORY_ROUTING_KEY = "inventory.reserve";
+  public static final String INVENTORY_ROUTING_KEY = "inventory_reserve";
+
+  public static final String ORDER_RESERVED_ROUTING_KEY = "order.reserved";
+  public static final String ORDER_REJECTED_ROUTING_KEY = "order.rejected";
 
   @Bean
   public DirectExchange exchange() {

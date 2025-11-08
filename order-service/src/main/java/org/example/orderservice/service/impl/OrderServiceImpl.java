@@ -1,6 +1,8 @@
 
 package org.example.orderservice.service.impl;
 
+import java.util.List;
+
 import org.example.orderservice.config.RabbitMQConfig;
 import org.example.orderservice.dto.command.ReserveInventoryCommand;
 import org.example.orderservice.dto.request.CreateOrderRequestDTO;
@@ -18,7 +20,6 @@ public class OrderServiceImpl implements OrderService {
 
   @Autowired
   private OrderRepository orderRepository;
-
   @Autowired
   private RabbitTemplate rabbitTemplate;
 
@@ -43,6 +44,18 @@ public class OrderServiceImpl implements OrderService {
     System.out.println("ReserveInventoryCommand enviado para la orden: " + order.getId());
 
     return order;
+  }
+
+  @Override
+  public Order getOrderById(String id) {
+    Order order = orderRepository.findById(id);
+    return order;
+  }
+
+  @Override
+  public List<Order> getAllOrders() {
+    List<Order> orders = orderRepository.findAll();
+    return orders;
   }
 
 }
