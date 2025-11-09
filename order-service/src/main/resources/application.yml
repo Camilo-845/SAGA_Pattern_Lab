@@ -1,5 +1,5 @@
 server:
-  port: 8084
+  port: 8081
 spring:
   application:
     name: order-service
@@ -39,4 +39,3 @@ spring:
         paymentIn-in-0:
           destination: payment-events-exchange
           group: order-service-payment-listener
-
