@@ -14,7 +14,6 @@ public class RabbitMQConfig {
   public static final String EXCHANGE_NAME = "saga.exchange";
   public static final String INVENTORY_QUEUE_NAME = "inventory.queue";
   public static final String INVENTORY_ROUTING_KEY = "inventory.reserve";
-  public static final String INVENTORY_RELEASE_QUEUE_NAME = "inventory.release.queue";
   public static final String INVENTORY_RELEASE_ROUTING_KEY = "inventory.release";
 
   public static final String ORDER_RESERVED_QUEUE_NAME = "order.reserved.queue";

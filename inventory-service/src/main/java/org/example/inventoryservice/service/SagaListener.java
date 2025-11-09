@@ -3,6 +3,7 @@ package org.example.inventoryservice.service;
 import java.math.BigDecimal;
 
 import org.example.inventoryservice.config.RabbitMQConfig;
+import org.example.inventoryservice.dto.command.ReleaseInventoryCommand;
 import org.example.inventoryservice.dto.command.ReserveInvetoryCommand;
 import org.example.inventoryservice.dto.event.InventoryRejectedEvent;
 import org.example.inventoryservice.dto.event.InventoryReserveEvent;
@@ -53,6 +54,20 @@ public class SagaListener {
 
       rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ORDER_REJECTED_ROUTING_KEY, event);
       System.out.println("Stock insuficiente. Enviando InventoryRejectedEven para la orden: " + command.orderId());
+    }
+  }
+
+  @RabbitListener(queues = RabbitMQConfig.INVENTORY_RELEASE_QUEUE_NAME)
+  public void handleReleaseInventory(ReleaseInventoryCommand command) {
+    System.out.println("ReleaseInventoryCommand recibido para la orden: " + command.orderId());
+    Inventory item = inventoryRepository.findById(command.productId());
+    if (item != null) {
+      item.setAvaliableQuantity(item.getAvaliableQuantity() + command.quantity());
+      inventoryRepository.save(item);
+      System.out.println(
+          "Inventario liberado para el producto: " + command.productId() + ", cantidad: " + command.quantity());
+    } else {
+      System.out.println("Producto no encontrado para liberar inventario: " + command.productId());
     }
   }
 }

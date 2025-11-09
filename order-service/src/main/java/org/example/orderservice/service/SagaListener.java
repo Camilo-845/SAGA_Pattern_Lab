@@ -85,7 +85,7 @@ public class SagaListener {
         order.getProductId(),
         order.getQuantity());
 
-    rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.INVENTORY_RELEASE_QUEUE_NAME, command);
+    rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.INVENTORY_RELEASE_ROUTING_KEY, command);
 
     System.out.println("ReleaseInventoryCommand enviado para la orden: " + order.getId());
   }

@@ -18,6 +18,9 @@ public class RabbitMQConfig {
   public static final String ORDER_RESERVED_ROUTING_KEY = "order.reserved";
   public static final String ORDER_REJECTED_ROUTING_KEY = "order.rejected";
 
+  public static final String INVENTORY_RELEASE_QUEUE_NAME = "inventory.release.queue";
+  public static final String INVENTORY_RELEASE_ROUTING_KEY = "inventory.release";
+
   @Bean
   public DirectExchange exchange() {
     return new DirectExchange(EXCHANGE_NAME);
@@ -36,5 +39,15 @@ public class RabbitMQConfig {
   @Bean
   public MessageConverter jsonMessageConverter() {
     return new Jackson2JsonMessageConverter();
+  }
+
+  @Bean
+  public Queue inventoryReleaseQueue() {
+    return new Queue(INVENTORY_RELEASE_QUEUE_NAME);
+  }
+
+  @Bean
+  public Binding inventoryReleaseBinding(Queue inventoryReleaseQueue, DirectExchange exchange) {
+    return BindingBuilder.bind(inventoryReleaseQueue).to(exchange).with(INVENTORY_RELEASE_ROUTING_KEY);
   }
 }
