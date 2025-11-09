@@ -15,7 +15,7 @@ public class RabbitMQConfig {
   public static final String PAYMENT_QUEUE_NAME = "payment.queue";
   public static final String PAYMENT_ROUTING_KEY = "payment.process";
 
-  public static final String PAYMENT_SUCCESS_ROUTING_KEY = "payment.sucess";
+  public static final String PAYMENT_SUCCESS_ROUTING_KEY = "payment.success";
   public static final String PAYMENT_FAILED_ROUTING_KEY = "payment.failed";
 
   @Bean
