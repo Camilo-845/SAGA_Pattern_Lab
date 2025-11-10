@@ -1,10 +1,46 @@
-# Market SAGA Patterm
+# SAGA Patterm Lab
 
-Implemetación del patron SAGA con RabbitMQ y Spring Boot (java 21)
+Implemetación del patron SAGA con RabbitMQ y Spring Boot (java 21), siguiendo guía [LabGuide](./LabGuide.md)
 
 ## Flujo de eventos y comandos
 
 ![img.png](img.png)
+
+## Instalación y Uso
+
+Clonar repositorio
+
+```sh
+git clone https://github.com/Camilo-845/SAGA_Pattern_Lab.git
+```
+
+Desde el directorio del proyecto
+
+Ejecutar imagen de RabbitMQ
+
+```sh
+docker compose up -d
+```
+
+Hacer build de los servicios
+
+```sh
+# Order Service
+./order-service/mvnw clean package --DskipTest
+# Inventory Service
+./inventory-service/mvnw clean package --DskipTest
+# Payment Service
+./payment-service/mvnw clean package --DskipTest
+```
+
+Ejecutar cada uno de los servicios
+
+```sh
+# Ejecución en sugundo plano, quitar el "&" si se quiere ejecutarlo en el mismo proceso
+java -jar ./order-service/target/order-service-0.0.1-SNAPSHOT.jar &
+java -jar ./inventory-service/target/inventory-service-0.0.1-SNAPSHOT.jar &
+java -jar ./payment-service/target/payment-service-0.0.1-SNAPSHOT.jar &
+```
 
 ## Test
 
